@@ -1,0 +1,49 @@
+ <meta charset="UTF-8">
+  <title>memory game-hard mode</title>
+</head>
+<body>
+<link rel="stylesheet" href="style.css">
+<h1 id="timer">60</h1>
+<button onclick="toggleTimer()" id="hardbtn">הפעל</button>
+
+<script>
+let startTime = 60;
+let time = startTime;
+let interval = null;
+let running = false;
+
+function toggleTimer() {
+  let display = document.getElementById("timer");
+  let btn = document.getElementById("hardbtn");
+
+  if (!running) {
+    // הפעלה
+    running = true;
+    btn.innerText = "להתחיל מהתחלה";
+
+    interval = setInterval(function () {
+      time--;
+      display.innerText = time;
+
+      if (time <= 0) {
+        clearInterval(interval);
+        interval = null;
+        running = false;
+        time = startTime;
+        display.innerText = "נגמר הזמן!";
+        btn.innerText = "הפעל";
+      }
+    }, 1000);
+
+  } else {
+    // עצירה + איפוס
+    clearInterval(interval);
+    interval = null;
+    running = false;
+
+    time = startTime;
+    display.innerText = time;
+    hardbtn.innerText = "הפעל";
+  }
+}
+</script>
