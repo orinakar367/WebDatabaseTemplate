@@ -1,49 +1,50 @@
- <meta charset="UTF-8">
-  <title>memory game-medium mode</title>
+<meta charset="UTF-8">
+<title>memory game-medium mode</title>
 </head>
+
 <body>
-<link rel="stylesheet" href="style.css">
-<h1 id="timer">90</h1>
-<button onclick="toggleTimer()" id="mediumbtn">הפעל</button>
+  <link rel="stylesheet" href="style.css">
+  <h1 id="stopper">90</h1>
+  <button onclick="togglestopper()" id="mediumbtn">הפעל</button>
 
-<script>
-let startTime = 90;
-let time = startTime;
-let interval = null;
-let running = false;
+  <script>
+    let startTime = 90;
+    let time = startTime;
+    let interval = null;
+    let running = false;
 
-function toggleTimer() {
-  let display = document.getElementById("timer");
-  let btn = document.getElementById("mediumbtn");
+    function togglestopper() {
+      let display = document.getElementById("stopper");
+      let btn = document.getElementById("mediumbtn");
 
-  if (!running) {
-    // הפעלה
-    running = true;
-    btn.innerText = "להתחיל מהתחלה";
+      if (!running) {
+        // הפעלה
+        running = true;
+        btn.innerText = "להתחיל מהתחלה";
 
-    interval = setInterval(function () {
-      time--;
-      display.innerText = time;
+        interval = setInterval(function () {
+          time--;
+          display.innerText = time;
 
-      if (time <= 0) {
+          if (time <= 0) {
+            clearInterval(interval);
+            interval = null;
+            running = false;
+            time = startTime;
+            display.innerText = "נגמר הזמן!";
+            btn.innerText = "הפעל";
+          }
+        }, 1000);
+
+      } else {
+        // עצירה + איפוס
         clearInterval(interval);
         interval = null;
         running = false;
+
         time = startTime;
-        display.innerText = "נגמר הזמן!";
-        btn.innerText = "הפעל";
+        display.innerText = time;
+        mediumbtn.innerText = "הפעל";
       }
-    }, 1000);
-
-  } else {
-    // עצירה + איפוס
-    clearInterval(interval);
-    interval = null;
-    running = false;
-
-    time = startTime;
-    display.innerText = time;
-    mediumbtn.innerText = "הפעל";
-  }
-}
-</script>
+    }
+  </script>

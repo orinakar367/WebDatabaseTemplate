@@ -1,3 +1,4 @@
+
 #containerDiv {
   display: flex;
   flex-direction: row;
@@ -14,9 +15,8 @@
   flex-direction: column;
   align-items: center;
 }
-{
- margin: 100px;
-}
+
+
 
 #buttonsDiv {
   display: flex;
@@ -79,5 +79,13 @@ background-size: cover;
 #easy-btn
 {
   padding-left: 500px;
+}
+#stopperButton
+{
+
+display: flex;
+justify-content: center;  
+align-items:center; 
+
 }
 
