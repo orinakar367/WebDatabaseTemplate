@@ -22,6 +22,7 @@ padding-left: 30px;
     justify-content: center;
     align-items: center;
     gap: 3%;
+    margin-top: 2%;
 }
 
 
@@ -35,5 +36,10 @@ flex-direction: row;
 align-items: center;
 justify-content: center;
 gap: 3%;
+margin-top: 3%;
 
+}
+
+.cardImg {
+    width: 150px;
 }

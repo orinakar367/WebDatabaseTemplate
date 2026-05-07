@@ -44,6 +44,19 @@ border-radius: 20px;
   height: 50px;
   width: 500px;
 }
+#easybutton:hover{
+background-color:rgb(111, 235, 111) ;
+transform: scale(1.01);
+}
+#hardbutton:hover{
+background-color:rgb(231, 0, 0) ;
+transform: scale(1.01);
+}
+#mediumbutton:hover{
+background-color:rgb(251, 255, 2) ;
+transform: scale(1.01);
+}
+
 #mediumbutton
 {
 background-color:yellow ;
