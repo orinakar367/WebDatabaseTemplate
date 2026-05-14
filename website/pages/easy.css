@@ -15,7 +15,7 @@ font-size: 50px;
 padding-left: 30px;
 }
 
-#images1-5
+#imagesR1
 {
     display: flex;
     flex-direction: row;
@@ -27,17 +27,18 @@ padding-left: 30px;
 
 
   
-#images6-10
+#imagesR2
 {
 
-
+width: 1349px;
+height: 203px;
 display: flex;
 flex-direction: row;
 align-items: center;
 justify-content: center;
 gap: 3%;
-margin-top: 3%;
-
+margin-top: 250px;
+position: relative;
 }
 
 .cardImg {
