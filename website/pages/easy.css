@@ -4,43 +4,37 @@
     justify-content: center;
     align-items: center;
 }
-#stopperDiv
-{
-padding-left: 800px;
-font-size: 50px;
+
+#stopperDiv {
+    padding-left: 800px;
+    font-size: 50px;
 }
 
-#secondTitle
-{
-padding-left: 30px;
+#secondTitle {
+    padding-left: 30px;
 }
 
-#imagesR1
-{
+.cardsDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+
+
+#allimages {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 3%;
-    margin-top: 2%;
+    gap: 10px ;
+    padding-top: 4 0px;
 }
 
+/* .cardImg {
+    width: 20px;
+} */
 
-  
-#imagesR2
-{
-
-width: 1349px;
-height: 203px;
-display: flex;
-flex-direction: row;
-align-items: center;
-justify-content: center;
-gap: 3%;
-margin-top: 250px;
-position: relative;
-}
-
-.cardImg {
-    width: 150px;
-}

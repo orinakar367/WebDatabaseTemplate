@@ -1,9 +1,9 @@
 import { get } from "componentUtilities";
 
-var stopperDiv = get("div", "stopperDiv");
-var stopperButton = get("button", "stopperButton");
+let stopperDiv = get("div", "stopperDiv");
+let stopperButton = get("button", "stopperButton");
 
-var seconds = 0;
+let seconds = 0;
 
 stopperButton.onclick = function () {
     setInterval(
