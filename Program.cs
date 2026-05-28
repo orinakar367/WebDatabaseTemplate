@@ -10,8 +10,8 @@ class Program
   {
     int port = 5000;
 
-    let server = new Server(port);
-    let database = new Database();
+    var server = new Server(port);
+    var database = new Database();
 
     Console.WriteLine("The server is running");
     Console.WriteLine($"Local:   http://localhost:{port}/website/pages/index.html");
@@ -19,7 +19,7 @@ class Program
 
     while (true)
     {
-      let request = server.WaitForRequest();
+      var request = server.WaitForRequest();
 
       Console.WriteLine($"Recieved a request: {request.Name}");
 
@@ -31,8 +31,8 @@ class Program
         }
         else if (request.Name == "addItem")
         {
-          let(name, amount) = request.GetParams<(string, int)>();
-          let item = new Item(name, amount);
+          var(name, amount) = request.GetParams<(string, int)>();
+          var item = new Item(name, amount);
           database.Items.Add(item);
           database.SaveChanges();
         }

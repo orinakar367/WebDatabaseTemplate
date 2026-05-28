@@ -1,50 +1,31 @@
-<meta charset="UTF-8">
-<title>memory game-medium mode</title>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>memory game-medium mode</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="medium.css">
 </head>
 
 <body>
-  <link rel="stylesheet" href="style.css">
-  <h1 id="stopper">90</h1>
-  <button onclick="togglestopper()" id="mediumbtn">הפעל</button>
+  <div id="containerDiv">
+    <div style="font-size: 55px;">welcome to the easy mode!</div>
+    <div id="secondTitle" style="font-size: 50px;">to start the game👇</div>
+    <div id="stopperDiv">0</div>
+    <button id="stopperButton" style="font-size: 35px;">Start the stopper</button>
 
-  <script>
-    let startTime = 90;
-    let time = startTime;
-    let interval = null;
-    let running = false;
+    <div id="allimages">
+      <div id="images1-2" class="cardsDiv"></div>
+      <div id="images3-4" class="cardsDiv"></div>
+      <div id="images5-6" class="cardsDiv"></div>
+      <div id="images7-8" class="cardsDiv"></div>
+      <div id="images9-10" class="cardsDiv"></div>
+    </div>
 
-    function togglestopper() {
-      let display = document.getElementById("stopper");
-      let btn = document.getElementById("mediumbtn");
 
-      if (!running) {
-        // הפעלה
-        running = true;
-        btn.innerText = "להתחיל מהתחלה";
 
-        interval = setInterval(function () {
-          time--;
-          display.innerText = time;
 
-          if (time <= 0) {
-            clearInterval(interval);
-            interval = null;
-            running = false;
-            time = startTime;
-            display.innerText = "נגמר הזמן!";
-            btn.innerText = "הפעל";
-          }
-        }, 1000);
+    <script type="module" src="medium.js"></script>
+</body>
 
-      } else {
-        // עצירה + איפוס
-        clearInterval(interval);
-        interval = null;
-        running = false;
-
-        time = startTime;
-        display.innerText = time;
-        mediumbtn.innerText = "הפעל";
-      }
-    }
-  </script>
+</html>

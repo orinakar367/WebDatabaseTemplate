@@ -62,6 +62,3 @@ for (let i = 0; i < 2; i++) {
     };
     images9to10Div.append(cardImg);
 }
-
-
-
