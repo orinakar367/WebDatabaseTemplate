@@ -1,0 +1,144 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+  background:
+    linear-gradient(135deg, #0f172a, #1e293b, #312e81);
+  color: white;
+  overflow-x: hidden;
+}
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.auth-card {
+  width: min(430px, 100%);
+  padding: 40px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.auth-card h1 {
+  margin: 0;
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.auth-card p {
+  margin: 12px 0 28px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+input {
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+input:focus {
+  border-color: #60a5fa;
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 20px rgba(96, 165, 250, 0.35);
+}
+
+button {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  background: linear-gradient(
+    135deg,
+    #3b82f6,
+    #8b5cf6
+  );
+  color: white;
+  transition: 0.3s;
+}
+
+#submitButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(139, 92, 246, 0.4);
+}
+
+#submitButton:active {
+  transform: scale(0.98);
+}
+
+.error {
+  min-height: 24px;
+  margin-top: 14px;
+  color: #ff7b7b;
+  font-weight: 600;
+}
+
+.switch {
+  margin-top: 22px !important;
+}
+
+a {
+  color: #93c5fd;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+a:hover {
+  color: #c4b5fd;
+  text-shadow: 0 0 12px rgba(196, 181, 253, 0.8);
+}
+
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-container button {
+  position: absolute;
+  top: 37%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: auto;
+  padding: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  box-shadow: none;
+  font-size: 20px;
+}
+
+.password-container button:hover {
+  color: white;
+  transform: translateY(-50%) scale(1.15);
+}
+
+input:focus + button {
+  color: #60a5fa;
+}

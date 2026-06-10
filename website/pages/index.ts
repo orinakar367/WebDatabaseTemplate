@@ -6,6 +6,13 @@ let itemInput = document.querySelector<HTMLInputElement>("#itemInput")!;
 let amountInput = document.querySelector<HTMLInputElement>("#amountInput")!;
 let addButton = document.querySelector<HTMLButtonElement>("#addButton")!;
 let itemsUl = document.querySelector<HTMLUListElement>("#itemsUl")!;
+var logoutBtn = document.getElementById("logoutBtn") as HTMLButtonElement;
+
+logoutBtn.onclick = async function() {
+  localStorage.removeItem("userToken");
+  location.href = "login.html";
+}
+
 
 let items = await send<Item[]>("getItems");
 

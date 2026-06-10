@@ -1,5 +1,10 @@
-﻿using System;
+﻿
+using System;
+using System.Linq;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.Extensions.DependencyInjection;
 using Project.DatabaseUtilities;
 using Project.LoggingUtilities;
 using Project.ServerUtilities;
@@ -14,8 +19,8 @@ class Program
     var database = new Database();
 
     Console.WriteLine("The server is running");
-    Console.WriteLine($"Local:   http://localhost:{port}/website/pages/index.html");
-    Console.WriteLine($"Network: http://{Network.GetLocalNetworkIPAddress()}:{port}/website/pages/index.html");
+    Console.WriteLine($"Local:   http://localhost:{port}/website/pages/login.html");
+    Console.WriteLine($"Network: http://{Network.GetLocalNetworkIPAddress()}:{port}/website/pages/login.html");
 
     while (true)
     {
@@ -25,17 +30,17 @@ class Program
 
       try
       {
-        if (request.Name == "getItems")
+
+        if (request.Name == "signUp")
         {
-          request.Respond(database.Items);
+          SignUp(request, database);
         }
-        else if (request.Name == "addItem")
+
+        else if ( request.Name == "logIn")
         {
-          var(name, amount) = request.GetParams<(string, int)>();
-          var item = new Item(name, amount);
-          database.Items.Add(item);
-          database.SaveChanges();
+          LogIn(request, database);
         }
+
       }
       catch (Exception exception)
       {
@@ -44,17 +49,78 @@ class Program
       }
     }
   }
+
+
+static void SignUp(Request request, Database database)
+{
+  var(username, password) = request.GetParams<(string, string)>();
+
+  bool usernameAlreadyExists = database.Users.Any(user => user.Name == username);
+
+  if (usernameAlreadyExists)
+    {
+      request.Respond<string?>(null);
+      return;
+    }
+
+    string token = Guid.NewGuid().ToString();
+
+    var newUser = new User(token, username, password);
+
+    database.Users.Add(newUser);
+    database.SaveChanges();
+
+    request.Respond(token);
 }
 
+static void LogIn(Request request, Database database)
+  {
+    var (username, password) = request.GetParams<(string, string)>();
+
+    var user = database.Users.FirstOrDefault(user => user.Name == username && user.Password == password);
+
+    if(user == null)
+    {
+      request.Respond<string?>(null);
+      return;
+    }
+
+    request.Respond(user.Token);
+}
+
+static void GetUser(Request request, Database database)
+  {
+    string? token = request.GetParams<string?>();
+
+    if (token == null)
+    {
+      request.Respond<User?>(null);
+      return;
+    }
+
+    var user = database.Users.FirstOrDefault(user => user.Token == token);
+
+    request.Respond(user);
+  }
 
 class Database() : DatabaseCore("database")
 {
-  public DbSet<Item> Items { get; set; } = default!;
+  public DbSet<User> Users { get; set; } = default!;
+
+  
 }
 
-class Item(string name, double amount)
+class User(string token, string name, string password)
 {
   public int Id { get; set; } = default!;
+
+  [JsonIgnore]
+  public string Token { get; set; } = token;
+
   public string Name { get; set; } = name;
-  public double Amount { get; set; } = amount;
+
+  [JsonIgnore]
+
+  public string Password { get; set; } = password;
+}
 }
