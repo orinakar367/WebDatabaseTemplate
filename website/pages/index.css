@@ -1,4 +1,13 @@
+#title{
+font-size: 60px;
+padding-left: 880px;
 
+}
+
+#second_title{
+  font-size: 48px;
+padding-left: 1040px;
+}
 #containerDiv {
   display: flex;
   flex-direction: row;
