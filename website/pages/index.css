@@ -155,3 +155,33 @@ align-items:center;
 #logoutBtn:active {
   transform: scale(0.96);
 }
+#leaderboardButton {
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  color: white;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+#leaderboardButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+#leaderboardButton:active {
+  transform: scale(0.95);
+}

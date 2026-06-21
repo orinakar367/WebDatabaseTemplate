@@ -81,7 +81,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 10px ;
-    margin-top: 40px;
+    margin-top: 40px
 }
 
 #pars {
@@ -173,3 +173,35 @@ body {
 #backButton:hover {
   background: #dc2626;
 }
+#youWon {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 700px;
+  min-height: 350px;
+
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+   color: #edd02e;
+ 
+  font-size: 60px;
+  font-weight: bold;
+  text-align: center;
+
+  padding: 60px;
+  border-radius: 35px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.4);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+  animation: popup 0.4s ease;
+}
+
+
+
+

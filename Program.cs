@@ -1,126 +1,120 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using Microsoft.Extensions.DependencyInjection;
 using Project.DatabaseUtilities;
 using Project.LoggingUtilities;
 using Project.ServerUtilities;
 
 class Program
 {
-  static void Main()
-  {
-    int port = 5000;
-
-    var server = new Server(port);
-    var database = new Database();
-
-    Console.WriteLine("The server is running");
-    Console.WriteLine($"Local:   http://localhost:{port}/website/pages/login.html");
-    Console.WriteLine($"Network: http://{Network.GetLocalNetworkIPAddress()}:{port}/website/pages/login.html");
-
-    while (true)
+    static void Main()
     {
-      var request = server.WaitForRequest();
+        int port = 5000;
 
-      Console.WriteLine($"Recieved a request: {request.Name}");
+        var server = new Server(port);
+        var database = new Database();
 
-      try
-      {
+        database.Database.ExecuteSqlRaw(
+            @"CREATE TABLE IF NOT EXISTS GameResults
+            (
+                Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                Username TEXT NOT NULL,
+                TimeInSeconds INTEGER NOT NULL,
+                Difficulty TEXT NOT NULL
+            );"
+        );
 
-        if (request.Name == "signUp")
+        Console.WriteLine("Server running...");
+
+        while (true)
         {
-          SignUp(request, database);
+            var request = server.WaitForRequest();
+
+            try
+            {
+                if (request.Name == "userWon")
+                {
+                    var (time, difficulty, token) =
+                        request.GetParams<(int, string, string)>();
+
+                    var user = database.Users.FirstOrDefault(u => u.Token == token);
+
+                    if (user == null)
+                    {
+                        request.Respond(false);
+                        continue;
+                    }
+
+                    database.GameResults.Add(new GameResult(
+                        user.Name,
+                        time,
+                        difficulty
+                    ));
+
+                    database.SaveChanges();
+
+                    request.Respond(true);
+                }
+
+                else if (request.Name == "getLeaderboard")
+                {
+                    var difficulty = request.GetParams<string>();
+
+                    var leaderboard = database.GameResults
+                        .Where(r => r.Difficulty == difficulty)
+                        .GroupBy(r => r.Username)
+                        .Select(g => g.OrderBy(x => x.TimeInSeconds).First())
+                        .OrderBy(r => r.TimeInSeconds)
+                        .Select(r => new LeaderboardEntry(
+                            r.Username,
+                            r.TimeInSeconds,
+                            r.Difficulty
+                        ))
+                        .ToArray();
+
+                    request.Respond(leaderboard);
+                }
+            }
+            catch (Exception ex)
+            {
+                request.SetStatusCode(500);
+                Log.WriteException(ex);
+            }
         }
-
-        else if ( request.Name == "logIn")
-        {
-          LogIn(request, database);
-        }
-
-      }
-      catch (Exception exception)
-      {
-        request.SetStatusCode(500);
-        Log.WriteException(exception);
-      }
     }
-  }
 
-
-static void SignUp(Request request, Database database)
-{
-  var(username, password) = request.GetParams<(string, string)>();
-
-  bool usernameAlreadyExists = database.Users.Any(user => user.Name == username);
-
-  if (usernameAlreadyExists)
+    class Database() : DatabaseCore("database")
     {
-      request.Respond<string?>(null);
-      return;
+        public DbSet<User> Users { get; set; } = default!;
+        public DbSet<GameResult> GameResults { get; set; } = default!;
     }
 
-    string token = Guid.NewGuid().ToString();
-
-    var newUser = new User(token, username, password);
-
-    database.Users.Add(newUser);
-    database.SaveChanges();
-
-    request.Respond(token);
-}
-
-static void LogIn(Request request, Database database)
-  {
-    var (username, password) = request.GetParams<(string, string)>();
-
-    var user = database.Users.FirstOrDefault(user => user.Name == username && user.Password == password);
-
-    if(user == null)
+    class User(string token, string name, string password)
     {
-      request.Respond<string?>(null);
-      return;
+        public int Id { get; set; }
+
+        [JsonIgnore]
+        public string Token { get; set; } = token;
+
+        public string Name { get; set; } = name;
+
+        [JsonIgnore]
+        public string Password { get; set; } = password;
     }
-
-    request.Respond(user.Token);
 }
 
-static void GetUser(Request request, Database database)
-  {
-    string? token = request.GetParams<string?>();
-
-    if (token == null)
-    {
-      request.Respond<User?>(null);
-      return;
-    }
-
-    var user = database.Users.FirstOrDefault(user => user.Token == token);
-
-    request.Respond(user);
-  }
-
-class Database() : DatabaseCore("database")
+class GameResult(string username, int timeInSeconds, string difficulty)
 {
-  public DbSet<User> Users { get; set; } = default!;
-
-  
+    public int Id { get; set; }
+    public string Username { get; set; } = username;
+    public int TimeInSeconds { get; set; } = timeInSeconds;
+    public string Difficulty { get; set; } = difficulty;
 }
 
-class User(string token, string name, string password)
+class LeaderboardEntry(string username, int timeInSeconds, string difficulty)
 {
-  public int Id { get; set; } = default!;
-
-  [JsonIgnore]
-  public string Token { get; set; } = token;
-
-  public string Name { get; set; } = name;
-
-  [JsonIgnore]
-
-  public string Password { get; set; } = password;
-}
+    public string Username { get; set; } = username;
+    public int TimeInSeconds { get; set; } = timeInSeconds;
+    public string Difficulty { get; set; } = difficulty;
 }

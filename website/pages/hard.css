@@ -115,7 +115,7 @@ body {
 .cardImg.open {
   transform: scale(1.3);
   z-index: 10;
-}
+} 
 
 #allimages {
     display: grid;
@@ -164,4 +164,41 @@ body {
 
 #backButton:hover {
   background: #dc2626;
+}
+
+#youWon {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 750px;
+  height: 380px;
+
+  background: radial-gradient(circle at center, #0b0f1a, #000000);
+  border: 3px solid #a855f7;
+
+  box-shadow: 0 0 40px rgba(168, 85, 247, 0.6),
+              0 0 90px rgba(0, 0, 0, 0.9);
+
+  z-index: 1000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+
+  font-size: 55px;
+  font-weight: 900;
+
+  color: #22d3ee;
+
+  text-shadow:
+    0 0 15px rgba(34, 211, 238, 0.8),
+    0 0 25px rgba(168, 85, 247, 0.6);
+
+  letter-spacing: 3px;
+  animation: hardPop 0.4s ease;
 }

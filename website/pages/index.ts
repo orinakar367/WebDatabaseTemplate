@@ -1,12 +1,13 @@
-import type { Item } from "types";
 import { send } from "clientUtilities";
 import { create } from "componentUtilities";
+import { get } from "componentUtilities";
 
-let itemInput = document.querySelector<HTMLInputElement>("#itemInput")!;
-let amountInput = document.querySelector<HTMLInputElement>("#amountInput")!;
-let addButton = document.querySelector<HTMLButtonElement>("#addButton")!;
-let itemsUl = document.querySelector<HTMLUListElement>("#itemsUl")!;
-var logoutBtn = document.getElementById("logoutBtn") as HTMLButtonElement;
+
+let itemInput = get("input", "itemInput") as HTMLInputElement;
+let amountInput = get("input", "amountInput") as HTMLInputElement;
+let addButton = get("button", "addButton");
+let itemsUl = get("ul", "itemsUl");
+let logoutBtn = get("button", "logoutBtn");
 
 logoutBtn.onclick = async function() {
   localStorage.removeItem("userToken");
@@ -14,15 +15,13 @@ logoutBtn.onclick = async function() {
 }
 
 
-let items = await send<Item[]>("getItems");
 
-for (let i = 0; i < items.length; i++) {
-  let itemLi = create("li");
-  itemLi.innerText = `${items[i].amount} ${items[i].name}`;
-  itemsUl.append(itemLi);
-}
 
-addButton.onclick = async function () {
-  await send("addItem", itemInput.value, parseInt(amountInput.value));
-  location.reload();
+
+
+
+let leaderboardButton = get("button", "leaderboardButton");
+
+leaderboardButton.onclick = function () {
+    window.location.href = "leaderboard.html";
 };
