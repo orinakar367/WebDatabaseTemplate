@@ -154,7 +154,7 @@ for (let i = 0; i < indexes.length; i++) {
     allImagesDiv.append(cardImg);
 }
 
-/* ================= WIN HANDLER (FIX ONLY) ================= */
+/* ================= WIN HANDLER ================= */
 
 async function handleWin() {
 
@@ -163,10 +163,14 @@ async function handleWin() {
         timer = null;
     }
 
-    youwon.innerText = "you won in " + seconds + " seconds!";
+    let minutes = Math.floor(seconds / 60);
+    let remainingSeconds = seconds % 60;
+
+    youwon.innerText =
+        `you won in ${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}!`;
+
     youwon.style.visibility = "visible";
 
-    // 🔥 FIX: היה "token" וזה שבר הכל
     token = localStorage.getItem("userToken");
 
     console.log("Sending win request...");

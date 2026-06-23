@@ -2,28 +2,35 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Leaderboard</title>
     <link rel="stylesheet" href="leaderboard.css">
+     <link rel="icon" href="../favicon.png">
 </head>
 
 <body>
+    <div id="leaderboardContainer">
 
-    <!-- כפתורי דיפיקולטי -->
-    <div id="difficultyButtons">
-        <button onclick="setDifficulty('Easy')">Easy</button>
-        <button onclick="setDifficulty('Medium')">Medium</button>
-        <button onclick="setDifficulty('Hard')">Hard</button>
+        <div id="difficultyButtons">
+            <button id="easyButton">Easy</button>
+            <button id="mediumButton">Medium</button>
+            <button id="hardButton">Hard</button>
+        </div>
+
+        <h1>Leaderboard</h1>
+
+        <div class="leaderboardRow headerRow">
+            <div class="cell">Place </div>
+            <div class="cell">Username </div>
+            <div class="cell">Time</div>
+            <div class="cell">Difficulty</div>
+        </div>
+
+        <div id="leaderboardBody"></div>
+
+        <button id="backButton">Back</button>
+
     </div>
-
-    <!-- כותרת -->
-    <h1>Leaderboard</h1>
-
-    <!-- כאן נכנסות השורות -->
-    <div id="leaderboardBody"></div>
-
-    <!-- כפתור חזרה -->
-    <button id="backButton">Back</button>
 
     <script type="module" src="leaderboard.js"></script>
 </body>

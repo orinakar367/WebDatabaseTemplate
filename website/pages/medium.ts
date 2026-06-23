@@ -160,7 +160,12 @@ async function handleWin() {
         timer = null;
     }
 
-    youwon.innerText = "you won in " + seconds + " seconds!";
+    let minutes = Math.floor(seconds / 60);
+    let remainingSeconds = seconds % 60;
+
+    youwon.innerText =
+        `you won in ${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds} seconds!`;
+
     youwon.style.visibility = "visible";
 
     token = localStorage.getItem("userToken");

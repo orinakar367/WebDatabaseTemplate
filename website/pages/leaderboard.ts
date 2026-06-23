@@ -10,61 +10,79 @@ type LeaderboardEntry = {
 let leaderboardBody = get("div", "leaderboardBody");
 let backButton = get("button", "backButton");
 
+let easyButton = get("button", "easyButton");
+let mediumButton = get("button", "mediumButton");
+let hardButton = get("button", "hardButton");
+
 let difficulty: "Easy" | "Medium" | "Hard" = "Easy";
 
 loadLeaderboard();
 
-/* ================= LOAD ================= */
-
 async function loadLeaderboard() {
-
     leaderboardBody.innerHTML = "";
 
-    const leaderboard = await send<LeaderboardEntry[]>(
+    let leaderboard = await send<LeaderboardEntry[]>(
         "getLeaderboard",
         difficulty
     );
 
     for (let i = 0; i < leaderboard.length; i++) {
-
         let row = create("div", {
             className: "leaderboardRow"
         });
 
-        let name = create("div", {
+        let placeCell = create("div", {
             className: "cell"
         });
-        name.innerText = leaderboard[i].username;
+        placeCell.innerText = (i + 1).toString();
 
-        let time = create("div", {
+        let usernameCell = create("div", {
             className: "cell"
         });
-        time.innerText = formatTime(leaderboard[i].timeInSeconds);
+        usernameCell.innerText = leaderboard[i].username;
 
-        row.append(name);
-        row.append(time);
+        let timeCell = create("div", {
+            className: "cell"
+        });
+        timeCell.innerText = formatTime(leaderboard[i].timeInSeconds);
+
+        let difficultyCell = create("div", {
+            className: "cell"
+        });
+        difficultyCell.innerText = leaderboard[i].difficulty;
+
+        row.append(placeCell);
+        row.append(usernameCell);
+        row.append(timeCell);
+        row.append(difficultyCell);
 
         leaderboardBody.append(row);
     }
-}
 
-/* ================= FORMAT ================= */
+    console.log(difficulty);
+}
 
 function formatTime(seconds: number) {
     let minutes = Math.floor(seconds / 60);
-    let remaining = seconds % 60;
+    let remainingSeconds = seconds % 60;
 
-    return `${minutes}:${remaining < 10 ? "0" : ""}${remaining}`;
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
 }
 
-/* ================= DIFFICULTY SWITCH ================= */
-
-(window as any).setDifficulty = function (mode: "Easy" | "Medium" | "Hard") {
-    difficulty = mode;
+easyButton.onclick = function () {
+    difficulty = "Easy";
     loadLeaderboard();
 };
 
-/* ================= BACK ================= */
+mediumButton.onclick = function () {
+    difficulty = "Medium";
+    loadLeaderboard();
+};
+
+hardButton.onclick = function () {
+    difficulty = "Hard";
+    loadLeaderboard();
+};
 
 backButton.onclick = function () {
     window.location.href = "index.html";

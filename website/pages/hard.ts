@@ -10,7 +10,6 @@ let youwon = get("div", "youWon");
 
 let parsCount: number = 0;
 
-// 🔥 חשוב: אותו מפתח כמו בלוגין שלך
 let token = localStorage.getItem("userToken");
 
 let cardsopen = 0;
@@ -20,7 +19,6 @@ let lockBoard = false;
 let backImage = "../images/card.png";
 let gameStarted = false;
 
-// 🔥 HARD
 let difficulty = "Hard";
 
 let seconds = 0;
@@ -166,7 +164,12 @@ async function handleWin() {
         timer = null;
     }
 
-    youwon.innerText = "YOU WON IN " + seconds + " SECONDS! 🔥";
+    let minutes = Math.floor(seconds / 60);
+    let remainingSeconds = seconds % 60;
+
+    youwon.innerText =
+        `YOU WON IN ${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}! 🔥`;
+
     youwon.style.visibility = "visible";
 
     token = localStorage.getItem("userToken");
